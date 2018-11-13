@@ -15,12 +15,12 @@ public interface BaseContract {
         /**
          * 显示加载对话框
          */
-        void showLoadingDialog();
+        void showLoading();
 
         /**
          * 隐藏加载对话框
          */
-        void hideLoadingDialog();
+        void hideLoading();
 
         /**
          * 检查token无效
