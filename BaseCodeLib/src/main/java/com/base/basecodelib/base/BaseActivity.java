@@ -1,27 +1,22 @@
-package com.base.basecodelib.view.activity;
+package com.base.basecodelib.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.base.basecodelib.R;
-import com.base.basecodelib.contract.activity.BaseContract;
-import com.base.basecodelib.presenter.activity.BasePresenterImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity extends AppCompatActivity implements BaseContract.View {
+public abstract class BaseActivity<T extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
     public static List<BaseActivity> sBaseActivityList = new ArrayList<>();
-    private BaseActivity mBaseActivity;
-    private BasePresenterImpl mPresenter;
+    protected        BaseActivity       mBaseActivity;
+    private       T                  mBasePresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,13 +28,14 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
         LayoutInflater.from(this).inflate(getLayoutId(), (FrameLayout) findViewById(R.id.fl_root), true);
         ButterKnife.bind(this);
         initView();
-        mPresenter = getPresenter();
-        if (mPresenter != null) {
-            mPresenter.init();
+        mBasePresenter = getPresenter();
+        if (mBasePresenter != null) {
+            mBasePresenter.attachView(this);
+            mBasePresenter.init();
         }
     }
 
-    protected abstract BasePresenterImpl getPresenter();
+    protected abstract T getPresenter();
 
     /**
      * 初始化控件
@@ -87,6 +83,11 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseCont
     @Override
     protected void onDestroy() {
         sBaseActivityList.remove(this);
+        if (mBasePresenter != null) {
+            mBasePresenter.destroy();
+            mBasePresenter.detachView();
+            mBasePresenter = null;
+        }
         super.onDestroy();
     }
 }

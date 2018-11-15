@@ -1,4 +1,4 @@
-package com.base.basecodelib.contract.activity;
+package com.base.basecodelib.base;
 
 public interface BaseContract {
     interface Model {
@@ -32,7 +32,7 @@ public interface BaseContract {
          *
          * @param code 结果码
          */
-        <T> void finishViewSetResutlCode(int code,T t);
+        <T> void finishViewSetResutlCode(int code, T t);
 
         /**
          * 关闭当前页面
@@ -40,6 +40,27 @@ public interface BaseContract {
         void finishView();
     }
 
-    interface Presenter {
+    interface Presenter<T extends BaseContract.View> {
+
+        /**
+         * 绑定view到presenter
+         * @param t
+         */
+        void attachView(T t);
+
+        /**
+         * 和view同步销毁
+         */
+        void detachView();
+
+        /**
+         * 初始化
+         */
+        void init();
+
+        /**
+         * 销毁对象
+         */
+        void destroy();
     }
 }
