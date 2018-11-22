@@ -29,13 +29,6 @@ public interface BaseContract {
 
         /**
          * 关闭当前页面
-         *
-         * @param code 结果码
-         */
-        <T> void finishViewSetResutlCode(int code, T t);
-
-        /**
-         * 关闭当前页面
          */
         void finishView();
     }

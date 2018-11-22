@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity<T extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
     public static List<BaseActivity> sBaseActivityList = new ArrayList<>();
-    protected        BaseActivity       mBaseActivity;
-    private       T                  mBasePresenter;
+    protected     BaseActivity       mBaseActivity;
+    protected        T                  mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,10 +28,10 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         LayoutInflater.from(this).inflate(getLayoutId(), (FrameLayout) findViewById(R.id.fl_root), true);
         ButterKnife.bind(this);
         initView();
-        mBasePresenter = getPresenter();
-        if (mBasePresenter != null) {
-            mBasePresenter.attachView(this);
-            mBasePresenter.init();
+        mPresenter = getPresenter();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+            mPresenter.init();
         }
     }
 
@@ -71,11 +71,6 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
     }
 
     @Override
-    public <T> void finishViewSetResutlCode(int code, T t) {
-
-    }
-
-    @Override
     public void finishView() {
         finish();
     }
@@ -83,10 +78,10 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
     @Override
     protected void onDestroy() {
         sBaseActivityList.remove(this);
-        if (mBasePresenter != null) {
-            mBasePresenter.destroy();
-            mBasePresenter.detachView();
-            mBasePresenter = null;
+        if (mPresenter != null) {
+            mPresenter.destroy();
+            mPresenter.detachView();
+            mPresenter = null;
         }
         super.onDestroy();
     }
