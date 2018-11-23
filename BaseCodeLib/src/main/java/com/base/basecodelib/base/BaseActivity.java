@@ -35,6 +35,17 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        sBaseActivityList.remove(this);
+        if (mPresenter != null) {
+            mPresenter.destroy();
+            mPresenter.detachView();
+            mPresenter = null;
+        }
+        super.onDestroy();
+    }
+
     protected abstract T getPresenter();
 
     /**
@@ -46,12 +57,7 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
 
     protected abstract int getLayoutId();
 
-    private void setLayoutViewPre(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    public void showToast(String text) {
+    protected void setLayoutViewPre(Bundle savedInstanceState) {
 
     }
 
@@ -70,19 +76,4 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
 
     }
 
-    @Override
-    public void finishView() {
-        finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        sBaseActivityList.remove(this);
-        if (mPresenter != null) {
-            mPresenter.destroy();
-            mPresenter.detachView();
-            mPresenter = null;
-        }
-        super.onDestroy();
-    }
 }

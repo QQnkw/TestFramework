@@ -41,15 +41,12 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mActivity = (BaseActivity) context;
-
-        //        LogUtils.d(this.getClass(), "onAttach");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initVariable();
-        //        LogUtils.d(this.getClass(), "onCreate");
     }
 
     @Nullable
@@ -64,28 +61,18 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
             view = rootView;
         }
         mUnbinder = ButterKnife.bind(this, view);
-        //        LogUtils.d(this.getClass(), "onCreateView");
         return view;
     }
-
-    /**
-     * 获取布局ID
-     *
-     * @return Activity布局ID
-     */
-    protected abstract int getFragmentLayoutId();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         /*如果setUserVisibleHint()在rootView创建前调用时，那么
         就等到rootView创建完后才回调onFragmentVisibleChange(true)
         保证onFragmentVisibleChange()的回调发生在rootView创建完成之后，以便支持ui操作*/
-        //        LogUtils.d(this.getClass(), "onViewCreated");
         if (rootView == null) {
             rootView = view;
             if (getUserVisibleHint()) {
                 if (isFirstVisible) {
-                    //                    LogUtils.d(this.getClass(), "getUserVisibleHint");
                     onFragmentFirstVisible();
                     isFirstVisible = false;
                 }
@@ -102,7 +89,6 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
         }
     }
 
-
     @Override
     public void onDestroy() {
         initVariable();
@@ -114,6 +100,14 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
         mUnbinder.unbind();
         super.onDestroy();
     }
+
+    /**
+     * 获取布局ID
+     *
+     * @return Activity布局ID
+     */
+    protected abstract int getFragmentLayoutId();
+
 
     protected abstract T getPresenter();
 
@@ -127,9 +121,6 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
         isReuseView = true;
     }
 
-
-    /*---------------------------------- -------------------------------------*/
-
     /**
      * setUserVisibleHint()只会在与ViewPager配合使用的时候才调用
      * setUserVisibleHint()在Fragment创建时会先被调用一次，传入isVisibleToUser = false
@@ -141,7 +132,6 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        //        LogUtils.d(this.getClass(), "setUserVisibleHint");
         //setUserVisibleHint()有可能在fragment的生命周期外被调用
         if (rootView == null) {
             return;
@@ -203,10 +193,6 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
      */
     protected abstract void initView(View view);
 
-    @Override
-    public void showToast(String text) {
-
-    }
 
     @Override
     public void showLoading() {
@@ -220,11 +206,6 @@ public abstract class BaseFragment<T extends BaseContract.Presenter> extends Fra
 
     @Override
     public void checkTokenInvalid() {
-
-    }
-
-    @Override
-    public void finishView() {
 
     }
 }

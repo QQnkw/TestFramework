@@ -5,12 +5,6 @@ public interface BaseContract {
     }
 
     interface View {
-        /**
-         * 吐司
-         *
-         * @param text 显示的文本
-         */
-        void showToast(String text);
 
         /**
          * 显示加载对话框
@@ -27,13 +21,9 @@ public interface BaseContract {
          */
         void checkTokenInvalid();
 
-        /**
-         * 关闭当前页面
-         */
-        void finishView();
     }
 
-    interface Presenter<T extends BaseContract.View> {
+    interface Presenter <T>{
 
         /**
          * 绑定view到presenter
