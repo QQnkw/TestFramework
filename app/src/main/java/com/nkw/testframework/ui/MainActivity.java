@@ -1,5 +1,7 @@
 package com.nkw.testframework.ui;
 
+import android.content.Intent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -33,15 +35,23 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     }
 
-    @OnClick(R.id.btn)
-    public void onViewClicked() {
-        if (mMainFragment.isHidden()) {
+    @OnClick({R.id.btn, R.id.btn_send})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn:
+                if (mMainFragment.isHidden()) {
 
-            getSupportFragmentManager().beginTransaction().show(mMainFragment).commitAllowingStateLoss();
-        } else {
+                    getSupportFragmentManager().beginTransaction().show(mMainFragment).commitAllowingStateLoss();
+                } else {
 
-            getSupportFragmentManager().beginTransaction().hide(mMainFragment).commitAllowingStateLoss();
+                    getSupportFragmentManager().beginTransaction().hide(mMainFragment).commitAllowingStateLoss();
+                }
+                break;
+            case R.id.btn_send:
+                startActivity(new Intent(this,SecondActivity.class));
+                break;
         }
+
     }
 
     @Override
