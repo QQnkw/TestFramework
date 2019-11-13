@@ -13,11 +13,10 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity<T extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
+public abstract class BaseActivity<V extends BaseContract.Presenter> extends AppCompatActivity implements BaseContract.View {
     public static List<BaseActivity> sBaseActivityList = new ArrayList<>();
     protected     BaseActivity       mBaseActivity;
-    protected        T                  mPresenter;
-
+    protected        V                  mPresenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +45,7 @@ public abstract class BaseActivity<T extends BaseContract.Presenter> extends App
         super.onDestroy();
     }
 
-    protected abstract T getPresenter();
+    protected abstract V getPresenter();
 
     /**
      * 初始化控件
